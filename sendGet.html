@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    async function fetchData() {
+        try {
+            const response = await fetch('server.php?username=max&password=geheim');
+            const result = await response.text();
+            console.log('Server-Antwort:', result);
+        } catch (error) {
+            console.error('Fehler:', error);
+        }
+    }
+
+    fetchData();
+
+</script>
+</body>
+</html>
