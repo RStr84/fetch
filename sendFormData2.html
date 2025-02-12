@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        form {
+            display: flex;
+            flex-direction: column; /* Anordnung der Elemente in einer Spalte */
+            width: 200px; /* Breite des Formulars */
+            margin-left: 0; /* Positioniert das Formular links */
+        }
+    </style>
+
+</head>
+<body>
+
+<h2>Formulardaten</h2>
+
+<form>
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Passwort:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="vorname">Vorname:</label>
+    <input type="text" id="vorname" name="vorname" required><br><br>
+
+    <label for="nachname">Passwort:</label>
+    <input type="text" id="nachname" name="nachname" required><br><br>
+
+    <button type="button" id="send">Senden</button>
+
+</form>
+
+<h2>Antwort vom Server:</h2>
+<textarea id="serverResponse" rows="4" cols="50" readonly></textarea>
+<script>
+
+    async function sendFormData() {
+
+        let username = document.querySelector('#username').value;
+        let password = document.querySelector('#password').value;
+        let vorname = document.querySelector('#vorname').value;
+        let nachname = document.querySelector('#nachname').value;
+
+        const formData = new URLSearchParams();
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('vorname', vorname);
+        formData.append('nachname', nachname);
+
+        try {
+            const response = await fetch('serverPOST.php', {  // Ersetze mit deiner Server-URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            });
+
+            const result = await response.text(); // Falls der Server nur eine Textantwort gibt
+            console.log('Antwort vom Server:', result);
+            document.querySelector('#serverResponse').value = result;
+
+        } catch (error) {
+            console.error('Fehler:', error);
+        }
+    }
+
+    document.querySelector('#send').addEventListener('click', sendFormData);
+
+    //URLSearchParams() erstellt einen Formulardaten-String (username=max&password=geheim).
+    //Content-Type: application/x-www-form-urlencoded macht die Anfrage kompatibel mit PHP oder älteren Servern.
+    //response.text() wird benutzt, falls der Server reine Textantworten liefert.
+
+</script>
+
+
+
+
+
+</body>
+</html>
